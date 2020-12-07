@@ -5,7 +5,7 @@ import turtle
 from threading import Thread
 from tkinter import *
 import base64
-
+import calendar
 
 f=open("data/password.txt",'rb+')             #password file
 f2=open("data/background.txt",'r+')           #bg color file
@@ -183,20 +183,22 @@ class Home():
         else:
             pass
         """App buttons"""
-        sett=Button(home,text="Settings", height=5, bg="sky blue", fg="brown", width=10, font=("Bahnschrift",12),command=self.settings)                                         #settings button
-        sett.place(x=2,y=100)
-        calcbtn=Button(home,text="Calculator",height=5, width=10,bg="grey",fg="black", font=("Bahnschrift",12),command=self.calc)                                                       #calculator button
-        calcbtn.place(x=112,y=100)
-        design=Button(home,text="Designs",height=5, width=10, bg="purple",fg="cyan", font=("Bahnschrift",12),command=self.design)                                                         #design button
+        sett=Button(home,text="Settings", height=3, bg="sky blue", fg="brown", width=7, font=("Bahnschrift",12),command=self.settings)                                         #settings button
+        sett.place(x=15,y=100)
+        calcbtn=Button(home,text="Calculator",height=3, width=7,bg="grey",fg="black", font=("Bahnschrift",12),command=self.calc)                                                       #calculator button
+        calcbtn.place(x=119,y=100)
+        design=Button(home,text="Designs",height=3, width=7 ,bg="purple",fg="cyan", font=("Bahnschrift",12),command=self.design)                                                         #design button
         design.place(x=222,y=100)
-        notepad=Button(home,text="Notepad",height=5, width=10, bg="orange", fg="black",font=("Bahnschrift",12),command=self.notepad)                                                       #notepad button
-        notepad.place(x=2,y=250)
-        click=Button(home,text="Click \n Game", height=5, width=10, bg="blue", fg="pink", font=("Bahnschrift",12),command=self.click_game)                                                       #click test button
-        click.place(x=112,y=250)
-        sample=Button(home,text="Sample \n Pictures", height=5, width=10, bg="red", fg="yellow", font=("Bahnschrift",12),command=self.sample)                                                       #sample pictures button
-        sample.place(x=222,y=250)
+        notepad=Button(home,text="Notepad",height=3, width=7, bg="orange", fg="black",font=("Bahnschrift",12),command=self.notepad)                                                       #notepad button
+        notepad.place(x=15,y=175)
+        click=Button(home,text="Click \n Game", height=3, width=7, bg="blue", fg="pink", font=("Bahnschrift",12),command=self.click_game)                                                       #click test button
+        click.place(x=119,y=175)
+        sample=Button(home,text="Sample \n Pictures", height=3, width=7, bg="red", fg="yellow", font=("Bahnschrift",12),command=self.sample)                                                       #sample pictures button
+        sample.place(x=222,y=175)
         lock=Button(home, text="LOCK",bg="black",fg="yellow",command=welcome)                                                                                                                                          #lock button
-        lock.place(x=143,y=368)
+        lock.place(x=137,y=368)
+        cal_lender=Button(home,text="Calendar", height=3, bg="sky blue", fg="brown", width=7, font=("Bahnschrift",12),command=self.calender)                                         #settings button
+        cal_lender.place(x=119,y=250)
 
         home.mainloop()
 
@@ -221,6 +223,53 @@ class Home():
         global truth
         if truth:
             welcome_screen.after_cancel(tick)
+    def gotocalendar(self):
+        self.gotowin=Tk()
+        self.gotowin.title("Year Calendar")
+        self.gotowin.lift()
+        self.gotowin.attributes('-topmost', True)
+        self.gotowin.geometry("550x600")
+        self.gotowin.resizable(False,False)
+        self.gotowin.config(bg="light green")
+        fetch_year = int(self.calc_entry.get())
+        self.calenwin.destroy()
+        cal_data = calendar.calendar(fetch_year)
+        #======calendar alignment needs to be fixed======
+        cal_year = Label(self.gotowin, text = cal_data, font = "Consolas 10 bold")
+        cal_year.grid(row = 5, column = 1, padx = 20)
+        self.homebtn=Button(self.gotowin,text="HOME", bg="black",fg="white",command=self.home_button8)
+        self.homebtn.place(x=250,y=575)
+        #home button needs to added
+        cal_year.grid(row = 7, column = 1, padx = 20)
+        self.gotowin.mainloop()
+    def calender(self):
+        """Called when calender button is pressed"""
+        global background
+        self.calenwin = Tk()
+        self.calenwin.title("Calendar")
+        self.calenwin.lift()
+        self.calenwin.attributes('-topmost', True)
+        self.calenwin.geometry("325x400")
+        #adding gotocalendarfunction
+        self.calenwin.resizable(False,False)
+        self.calenwin.config(bg="green")
+        #home button needs to added
+        
+        #adding label to the calender page
+        self.calc_label = Label(self.calenwin,text="Calender" ,pady = 5 , font =50 , fg  = "white" , bg= "black" , width = 10 , height =3)
+        self.calc_label.place(x = 120 , y = 30)
+        self.calc_label1 = Label(self.calenwin,text="enter year" , font =15)
+        self.calc_label1.place(x = 130 , y = 125)
+        self.calc_entry = Entry(self.calenwin , font =25)
+        self.calc_entry.place(x = 75 , y = 162 )
+        self.calc_button = Button(self.calenwin , text = "go to calendar", font =15 , command = self.gotocalendar)
+        self.calc_button.place(x = 110 , y = 200 )
+        self.homebtn=Button(self.calenwin,text="HOME", bg="black", font = 15 ,fg="white",command=self.home_button8)
+        self.homebtn.place(x=140,y=370)
+        #to destroy home screen
+        global home
+        home.after_cancel(Home.AFTER)
+        home.destroy()
 
     def settings(self):
         """Called when Settings button is pressed"""
@@ -255,7 +304,6 @@ class Home():
             f2.close()
         self.sv=Button(self.setwin,text="Save",command=save1,bg="cyan",fg="black")
         self.sv.place(x=140,y=235)
-
     """NOT WORKING ON SOME DEVICES"""
     def click_game(self):
         """Calls when click button is pressed"""
@@ -876,5 +924,14 @@ class Home():
         global home_screen                                  #home button for settings window
         self.setwin.destroy()
         home_screen=Home()
+    def home_button8(self):
+        global home_screen                                  #home button for settings window
+        self.calenwin.destroy()
+        home_screen=Home()
+    def home_button8(self):
+        global home_screen                                  #home button for settings window
+        self.gotowin.destroy()
+        home_screen=Home()
+
 
 welcome(o="f")
