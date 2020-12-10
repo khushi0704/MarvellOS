@@ -237,7 +237,7 @@ class Home():
         #======calendar alignment needs to be fixed======
         cal_year = Label(self.gotowin, text = cal_data, font = "Consolas 10 bold")
         cal_year.grid(row = 5, column = 1, padx = 20)
-        self.homebtn=Button(self.gotowin,text="HOME", bg="black",fg="white",command=self.home_button8)
+        self.homebtn=Button(self.gotowin,text="HOME", bg="black",fg="white",command=self.home_button9)
         self.homebtn.place(x=250,y=575)
         #home button needs to added
         cal_year.grid(row = 7, column = 1, padx = 20)
@@ -928,7 +928,7 @@ class Home():
         global home_screen                                  #home button for settings window
         self.calenwin.destroy()
         home_screen=Home()
-    def home_button8(self):
+    def home_button9(self):
         global home_screen                                  #home button for settings window
         self.gotowin.destroy()
         home_screen=Home()
